@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@200;400;600&display=swap');
+@import './assets/icomoon/style.css';
+@import './assets/styles/fonts.scss';
+
+body {
+  margin: 0;
+  font-family: 'Sora', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
