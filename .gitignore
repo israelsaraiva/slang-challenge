@@ -1,3 +1,4 @@
 slang-front/yarn.lock
 slang-front/node_modules
+slang-api/node_modules
 *.lock

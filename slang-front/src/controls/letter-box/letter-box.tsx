@@ -42,7 +42,7 @@ const LetterDrag = ({ index, letter, moveCard, listIndex }: Props) => {
 
       const canDrop = !dropLetter || !dropLetter.length;
 
-      if (item && dropIndex && listIndex !== dropListIndex && canDrop) {
+      if (item && dropIndex && canDrop) {
         moveCard(index, listIndex, dropIndex, dropListIndex);
       }
     },
