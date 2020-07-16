@@ -1,15 +1,29 @@
 import produce from 'immer';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import LetterCard from '../../controls/letter-box/letter-box';
+import { WordsService } from 'services/words.service';
+import { shuffle } from 'util/functions';
+import { Loading } from 'controls/loading/loading';
 
 const MiddleSection = () => {
-  const [letters, setLetters] = useState<string[][]>([
-    ['M', 'U', 'S', 'I', 'C'],
-    new Array(5).fill(''),
-  ]);
+  const [words, setWords] = useState<string[]>([]);
+  const [currentWord, setCurrentWord] = useState('');
+  const [letters, setLetters] = useState<string[][]>([[], []]);
+  const [loadingData, setLoadingData] = useState(false);
+
+  useEffect(() => {
+    setLoadingData(true);
+    WordsService.all().then((res) => {
+      const word = res.data[0];
+      setCurrentWord(word);
+      setWords(res.data);
+      setLetters([shuffle(word.split('')), new Array(word.length).fill('')]);
+      setLoadingData(false);
+    });
+  }, []);
 
   const moveCard = useCallback(
     (dragIndex: number, dragList: number, dropIndex: number, dropList) => {
@@ -73,16 +87,29 @@ const MiddleSection = () => {
     );
   }, [letters]);
 
+  const loadingHtml = useMemo(
+    () => (
+      <div className='center-absolute'>
+        <Loading />
+      </div>
+    ),
+    []
+  );
+
   return (
-    <div className='container px-5 d-flex justify-content-center'>
+    <div className='container px-5 d-flex justify-content-center position-relative'>
       <DndProvider backend={HTML5Backend}>
-        <div>
-          <h2 className='mb-5 text-center'>Write what you listen</h2>
+        {loadingData && loadingHtml}
 
-          {wordGaps}
+        {!loadingData && (
+          <div>
+            <h2 className='mb-5 text-center'>Write what you listen</h2>
 
-          {wordBlocks}
-        </div>
+            {wordGaps}
+
+            {wordBlocks}
+          </div>
+        )}
       </DndProvider>
     </div>
   );

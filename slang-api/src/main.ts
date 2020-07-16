@@ -6,6 +6,8 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   const options = new DocumentBuilder()
     .setTitle('Slang App')
     .setDescription('Slang Web App')

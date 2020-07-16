@@ -69,7 +69,7 @@ const LetterDrag = ({ index, letter, moveCard, listIndex }: Props) => {
     <div
       ref={ref}
       className={divClass}
-      style={{ backgroundColor: isOver && canDrop ? 'red' : 'white' }}
+      style={{ backgroundColor: isOver && canDrop ? 'azure' : 'white' }}
     >
       <div className='my-auto'>{letter}</div>
     </div>
