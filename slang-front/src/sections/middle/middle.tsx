@@ -20,21 +20,34 @@ import LetterCard from '../../controls/letter-box/letter-box';
 const BACKSPACE_CODE = 8;
 
 const MiddleSection = () => {
-  const [words, setWords] = useState<string[]>([]);
-  const [currentWord, setCurrentWord] = useState<string>('');
   const [letters, setLetters] = useState<string[][]>([[], []]);
   const [loadingWords, setLoadingWords] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
   const [audioData, setAudioData] = useState<SpeechModel>();
 
+  const {
+    toggleCheckAnswer,
+    setCurrentWord,
+    setWords,
+    currentWord,
+    setWordProvided,
+  } = useContext(AppContext);
+
   useEffect(() => {
     setLoadingWords(true);
     ActionsService.getWords().then((res) => {
       const word = res.data[0];
-      setCurrentWord(word);
-      setWords(res.data);
+
       setLetters([shuffle(word.split('')), new Array(word.length).fill('')]);
       setLoadingWords(false);
+
+      if (setCurrentWord) {
+        setCurrentWord(word);
+      }
+
+      if (setWords) {
+        setWords(res.data);
+      }
     });
   }, []);
 
@@ -48,12 +61,18 @@ const MiddleSection = () => {
     }
   }, [currentWord]);
 
-  const { toggleCheckAnswer } = useContext(AppContext);
-
   useEffect(() => {
-    if (toggleCheckAnswer) {
+    if (toggleCheckAnswer && currentWord) {
       const filledCards = letters[1].filter((l) => l !== '').length;
-      toggleCheckAnswer(filledCards === currentWord.length);
+
+      if (setWordProvided) {
+        if (filledCards > 0) {
+          toggleCheckAnswer(filledCards === currentWord.length);
+          setWordProvided(letters[1]);
+        } else {
+          setWordProvided([]);
+        }
+      }
     }
   }, [letters]);
 

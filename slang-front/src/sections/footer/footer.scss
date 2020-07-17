@@ -1,0 +1,11 @@
+.footer_section {
+  background-color: aliceblue;
+
+  &.success {
+    background-color: lightgreen;
+  }
+
+  &.fail {
+    background-color: lightpink;
+  }
+}
