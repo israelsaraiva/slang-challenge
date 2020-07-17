@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { ActionsService } from 'services/actions.service';
+import { SpeechModel } from 'models/speech.model';
+import React, { useState } from 'react';
 
 type Props = {
-  word: string;
-  setLoadingAudio: (value: boolean) => void;
+  audioData: SpeechModel;
 };
 
-export const AudioSpeech = ({ word, setLoadingAudio }: Props) => {
-  const [audioData, setAudioData] = useState<any>();
-
-  useEffect(() => {
-    if (word) {
-      setLoadingAudio(true);
-      ActionsService.getSpeech(word).then((res) => {
-        setAudioData(res.data);
-        setLoadingAudio(false);
-      });
-    }
-  }, []);
+export const AudioSpeech = ({ audioData }: Props) => {
+  const [speed, setSpeed] = useState(true);
 
   const playAudio = () => {
-    console.log(audioData);
     if (audioData) {
-      const audio = new Audio(audioData);
-      console.log(audioData);
-
+      //   const data = speed ? audioData.normal : audioData.slow;
+      const audio = new Audio(audioData.normal);
+      //   setSpeed(!speed);
       audio.play();
     }
   };

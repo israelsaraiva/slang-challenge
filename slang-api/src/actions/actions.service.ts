@@ -21,7 +21,7 @@ export class ActionsService {
   async getSpeech(word: string) {
     console.log('URL', this.pronounceBaseURL);
 
-    return this.httpService
+    const normal = await this.httpService
       .get<string[]>(this.pronounceBaseURL, {
         params: {
           key: '49f0551a55144ef79dadaeccf28b3383',
@@ -31,6 +31,23 @@ export class ActionsService {
           b64: true,
         },
       })
-      .pipe(map(res => res.data));
+      .pipe(map(res => res.data))
+      .toPromise();
+
+    // const slow = await this.httpService
+    //   .get<string[]>(this.pronounceBaseURL, {
+    //     params: {
+    //       key: '49f0551a55144ef79dadaeccf28b3383',
+    //       hl: 'en-us',
+    //       src: word,
+    //       c: 'OGG',
+    //       b64: true,
+    //       r: -5,
+    //     },
+    //   })
+    //   .pipe(map(res => res.data))
+    //   .toPromise();
+
+    return { normal };
   }
 }

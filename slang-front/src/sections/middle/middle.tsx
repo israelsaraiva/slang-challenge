@@ -1,5 +1,7 @@
+import { AudioSpeech } from 'controls/audiospeech/audiospeech';
 import { Loading } from 'controls/loading/loading';
 import produce from 'immer';
+import { SpeechModel } from 'models/speech.model';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -7,7 +9,6 @@ import { ActionsService } from 'services/actions.service';
 import { shuffle } from 'util/functions';
 
 import LetterCard from '../../controls/letter-box/letter-box';
-import { AudioSpeech } from 'controls/audiospeech/audiospeech';
 
 const MiddleSection = () => {
   const [words, setWords] = useState<string[]>([]);
@@ -15,6 +16,7 @@ const MiddleSection = () => {
   const [letters, setLetters] = useState<string[][]>([[], []]);
   const [loadingWords, setLoadingWords] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
+  const [audioData, setAudioData] = useState<SpeechModel>();
 
   useEffect(() => {
     setLoadingWords(true);
@@ -26,6 +28,16 @@ const MiddleSection = () => {
       setLoadingWords(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (currentWord) {
+      setLoadingAudio(true);
+      ActionsService.getSpeech(currentWord).then((res) => {
+        setAudioData(res.data);
+        setLoadingAudio(false);
+      });
+    }
+  }, [currentWord]);
 
   const moveCard = useCallback(
     (dragIndex: number, dragList: number, dropIndex: number, dropList) => {
@@ -40,22 +52,12 @@ const MiddleSection = () => {
     [letters]
   );
 
-  const audioSpeech = useMemo(() => {
-    console.log('====================================');
-    console.log(currentWord);
-    console.log('====================================');
-  }, [currentWord]);
-
   const wordGaps = useMemo(() => {
     const gapsIndex = 1;
 
     return (
       <div className='d-flex mb-5'>
-        {/* {currentWord && (
-          <AudioSpeech word={currentWord} setLoadingAudio={setLoadingAudio} />
-        )} */}
-
-        {audioSpeech}
+        {audioData && <AudioSpeech audioData={audioData} />}
 
         <div className='align-self-center ml-5 fs_15 d-flex'>
           {letters[gapsIndex].map((l, i) => (
@@ -70,7 +72,7 @@ const MiddleSection = () => {
         </div>
       </div>
     );
-  }, [letters, currentWord]);
+  }, [letters, audioData]);
 
   const wordBlocks = useMemo(() => {
     const blockIndex = 0;
