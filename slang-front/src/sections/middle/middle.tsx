@@ -1,27 +1,29 @@
+import { Loading } from 'controls/loading/loading';
 import produce from 'immer';
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { ActionsService } from 'services/actions.service';
+import { shuffle } from 'util/functions';
 
 import LetterCard from '../../controls/letter-box/letter-box';
-import { WordsService } from 'services/words.service';
-import { shuffle } from 'util/functions';
-import { Loading } from 'controls/loading/loading';
+import { AudioSpeech } from 'controls/audiospeech/audiospeech';
 
 const MiddleSection = () => {
   const [words, setWords] = useState<string[]>([]);
-  const [currentWord, setCurrentWord] = useState('');
+  const [currentWord, setCurrentWord] = useState<string>();
   const [letters, setLetters] = useState<string[][]>([[], []]);
-  const [loadingData, setLoadingData] = useState(false);
+  const [loadingWords, setLoadingWords] = useState(false);
+  const [loadingAudio, setLoadingAudio] = useState(false);
 
   useEffect(() => {
-    setLoadingData(true);
-    WordsService.all().then((res) => {
+    setLoadingWords(true);
+    ActionsService.getWords().then((res) => {
       const word = res.data[0];
       setCurrentWord(word);
       setWords(res.data);
       setLetters([shuffle(word.split('')), new Array(word.length).fill('')]);
-      setLoadingData(false);
+      setLoadingWords(false);
     });
   }, []);
 
@@ -38,22 +40,22 @@ const MiddleSection = () => {
     [letters]
   );
 
-  const btnHearWord = useMemo(() => {
-    return (
-      <button
-        type='button'
-        className='btn btn-primary d-flex justify-content-center py-3 px-3 font-weight-bold'
-      >
-        <span className='icon-volume-medium fs_15 mr-3' /> Hear word
-      </button>
-    );
-  }, []);
+  const audioSpeech = useMemo(() => {
+    console.log('====================================');
+    console.log(currentWord);
+    console.log('====================================');
+  }, [currentWord]);
 
   const wordGaps = useMemo(() => {
     const gapsIndex = 1;
+
     return (
       <div className='d-flex mb-5'>
-        {btnHearWord}
+        {/* {currentWord && (
+          <AudioSpeech word={currentWord} setLoadingAudio={setLoadingAudio} />
+        )} */}
+
+        {audioSpeech}
 
         <div className='align-self-center ml-5 fs_15 d-flex'>
           {letters[gapsIndex].map((l, i) => (
@@ -68,7 +70,7 @@ const MiddleSection = () => {
         </div>
       </div>
     );
-  }, [letters]);
+  }, [letters, currentWord]);
 
   const wordBlocks = useMemo(() => {
     const blockIndex = 0;
@@ -99,9 +101,9 @@ const MiddleSection = () => {
   return (
     <div className='container px-5 d-flex justify-content-center position-relative'>
       <DndProvider backend={HTML5Backend}>
-        {loadingData && loadingHtml}
+        {(loadingWords || loadingAudio) && loadingHtml}
 
-        {!loadingData && (
+        {!loadingWords && !loadingAudio && (
           <div>
             <h2 className='mb-5 text-center'>Write what you listen</h2>
 

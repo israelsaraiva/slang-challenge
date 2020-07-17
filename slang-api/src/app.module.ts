@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 
+import { ActionsModule } from './actions/actions.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { WordsModule } from './words/words.module';
 
 @Module({
-  imports: [WordsModule],
+  imports: [ActionsModule],
   controllers: [AppController],
   providers: [AppService],
 })
