@@ -19,8 +19,6 @@ export class ActionsService {
   }
 
   async getSpeech(word: string) {
-    console.log('URL', this.pronounceBaseURL);
-
     const normal = await this.httpService
       .get<string[]>(this.pronounceBaseURL, {
         params: {

@@ -48,7 +48,7 @@ const MiddleSection = () => {
     }
   }, [currentWord]);
 
-  const { toggleCheckAnswer, keyPressed } = useContext(AppContext);
+  const { toggleCheckAnswer } = useContext(AppContext);
 
   useEffect(() => {
     if (toggleCheckAnswer) {
@@ -57,16 +57,18 @@ const MiddleSection = () => {
     }
   }, [letters]);
 
-  useEffect(() => {
-    if (keyPressed) {
-      if (keyPressed !== BACKSPACE_CODE) {
-        const key = String.fromCharCode(keyPressed).toLowerCase();
+  const onKeyDown = (keyCode: number) => {
+    console.log(keyCode);
+
+    if (keyCode) {
+      if (keyCode !== BACKSPACE_CODE) {
+        const key = String.fromCharCode(keyCode).toLowerCase();
 
         const index = letters[0].findIndex(
           (letter) => letter.toLowerCase() === key
         );
 
-        const emptyIndex = letters[0].findIndex((space) => space === '');
+        const emptyIndex = letters[1].findIndex((space) => space === '');
 
         if (index !== -1) {
           setLetters(
@@ -76,9 +78,24 @@ const MiddleSection = () => {
             })
           );
         }
+      } else {
+        const lastFilledIndex =
+          letters[1].findIndex((space) => space === '') - 1;
+
+        if (lastFilledIndex !== -1) {
+          const emptyIndex = letters[0].findIndex((space) => space === '');
+
+          setLetters(
+            produce(letters, (draft) => {
+              const value = draft[1][lastFilledIndex];
+              draft[1][lastFilledIndex] = '';
+              draft[0][emptyIndex] = value;
+            })
+          );
+        }
       }
     }
-  }, [keyPressed]);
+  };
 
   const moveCard = useCallback(
     (dragIndex: number, dragList: number, dropIndex: number, dropList) => {
@@ -108,6 +125,7 @@ const MiddleSection = () => {
               letter={l}
               listIndex={gapsIndex}
               moveCard={moveCard}
+              inputChanged={onKeyDown}
             />
           ))}
         </div>
@@ -126,6 +144,7 @@ const MiddleSection = () => {
             letter={l}
             listIndex={blockIndex}
             moveCard={moveCard}
+            readonly
           />
         ))}
       </div>
@@ -142,7 +161,10 @@ const MiddleSection = () => {
   );
 
   return (
-    <div className='container px-5 d-flex justify-content-center position-relative'>
+    <div
+      id='middle_section'
+      className='container px-5 d-flex justify-content-center position-relative'
+    >
       <DndProvider backend={HTML5Backend}>
         {(loadingWords || loadingAudio) && loadingHtml}
 

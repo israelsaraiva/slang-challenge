@@ -11,6 +11,8 @@ type Props = {
   index: number;
   letter: string;
   listIndex: number;
+  readonly?: boolean;
+  inputChanged?: (value: number) => void;
   moveCard: (
     dragIndex: number,
     dragList: number,
@@ -19,7 +21,14 @@ type Props = {
   ) => void;
 };
 
-const LetterDrag = ({ index, letter, moveCard, listIndex }: Props) => {
+const LetterDrag = ({
+  index,
+  letter,
+  moveCard,
+  listIndex,
+  readonly,
+  inputChanged,
+}: Props) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const canDrop = !letter || !letter.length;
@@ -71,7 +80,18 @@ const LetterDrag = ({ index, letter, moveCard, listIndex }: Props) => {
       className={divClass}
       style={{ backgroundColor: isOver && canDrop ? 'azure' : 'white' }}
     >
-      <div className='my-auto'>{letter}</div>
+      <input
+        type='text'
+        value={letter}
+        className={`letterdrag_input ${canDrop ? 'can_drop' : ''}`}
+        readOnly={!canDrop || readonly}
+        maxLength={1}
+        onKeyDown={(e) => {
+          if (inputChanged) {
+            inputChanged(e.keyCode);
+          }
+        }}
+      />
     </div>
   );
 };

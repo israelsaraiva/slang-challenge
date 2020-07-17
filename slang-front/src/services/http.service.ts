@@ -9,8 +9,6 @@ export default class HttpService {
       return HttpService.httpService;
     }
 
-    console.log(HttpService.baseURL);
-
     const config: AxiosRequestConfig = {
       baseURL: HttpService.baseURL,
       timeout: 30000,

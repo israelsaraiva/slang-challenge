@@ -4,8 +4,6 @@ import { AppContext } from 'App';
 const Footer = () => {
   const { checkAnswer } = useContext(AppContext);
 
-  console.log(checkAnswer);
-
   return (
     <div className='border-top py-5'>
       {checkAnswer}
