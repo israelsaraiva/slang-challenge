@@ -1,8 +1,15 @@
+import { AppContext } from 'App';
 import { AudioSpeech } from 'controls/audiospeech/audiospeech';
 import { Loading } from 'controls/loading/loading';
 import produce from 'immer';
 import { SpeechModel } from 'models/speech.model';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ActionsService } from 'services/actions.service';
@@ -10,9 +17,11 @@ import { shuffle } from 'util/functions';
 
 import LetterCard from '../../controls/letter-box/letter-box';
 
+const BACKSPACE_CODE = 8;
+
 const MiddleSection = () => {
   const [words, setWords] = useState<string[]>([]);
-  const [currentWord, setCurrentWord] = useState<string>();
+  const [currentWord, setCurrentWord] = useState<string>('');
   const [letters, setLetters] = useState<string[][]>([[], []]);
   const [loadingWords, setLoadingWords] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
@@ -38,6 +47,38 @@ const MiddleSection = () => {
       });
     }
   }, [currentWord]);
+
+  const { toggleCheckAnswer, keyPressed } = useContext(AppContext);
+
+  useEffect(() => {
+    if (toggleCheckAnswer) {
+      const filledCards = letters[1].filter((l) => l !== '').length;
+      toggleCheckAnswer(filledCards === currentWord.length);
+    }
+  }, [letters]);
+
+  useEffect(() => {
+    if (keyPressed) {
+      if (keyPressed !== BACKSPACE_CODE) {
+        const key = String.fromCharCode(keyPressed).toLowerCase();
+
+        const index = letters[0].findIndex(
+          (letter) => letter.toLowerCase() === key
+        );
+
+        const emptyIndex = letters[0].findIndex((space) => space === '');
+
+        if (index !== -1) {
+          setLetters(
+            produce(letters, (draft) => {
+              draft[0][index] = '';
+              draft[1][emptyIndex] = key;
+            })
+          );
+        }
+      }
+    }
+  }, [keyPressed]);
 
   const moveCard = useCallback(
     (dragIndex: number, dragList: number, dropIndex: number, dropList) => {

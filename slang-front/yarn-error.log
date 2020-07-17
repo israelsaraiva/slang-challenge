@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/israelsaraiva/.nvm/versions/node/v12.16.3/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add voice-rss-api
+  /Users/israelsaraiva/.nvm/versions/node/v12.16.3/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add @types/keycoder
 
 PATH: 
-  /Users/israelsaraiva/.nvm/versions/node/v12.16.3/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Firebird.framework/Resources/bin:/Users/israelsaraiva/dev/tools/flutter/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/israelsaraiva/.nvm/versions/node/v12.16.3/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Users/israelsaraiva/Library/Android/sdk:/Users/israelsaraiva/.android/avd:/Users/israelsaraiva/Library/Android/sdk:/Users/israelsaraiva/.android/avd
+  /Users/israelsaraiva/.nvm/versions/node/v12.16.3/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Firebird.framework/Resources/bin:/Users/israelsaraiva/dev/tools/flutter/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/israelsaraiva/Library/Android/sdk:/Users/israelsaraiva/.android/avd
 
 Yarn version: 
   1.22.4
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/voice-rss-api: Not found
+  Error: https://registry.yarnpkg.com/@types%2fkeycoder: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
       at Request.emit (events.js:310:20)
@@ -47,6 +47,8 @@ npm manifest:
       "bootstrap": "^4.5.0",
       "immer": "^7.0.5",
       "jquery": "^3.5.1",
+      "keycode": "^2.2.0",
+      "keycoder": "^1.1.1",
       "node-sass": "^4.14.1",
       "popper.js": "^1.16.1",
       "react": "^16.13.1",
@@ -6750,6 +6752,16 @@ Lockfile:
     dependencies:
       array-includes "^3.1.1"
       object.assign "^4.1.0"
+  
+  keycode@^2.2.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
+    integrity sha1-PQr1bce4uOXLqNCpfxByBO7CKwQ=
+  
+  keycoder@^1.1.1:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/keycoder/-/keycoder-1.1.1.tgz#09d7abee7e52b0171722f5bb238e8af885d2b16a"
+    integrity sha1-Cder7n5SsBcXIvW7I46K+IXSsWo=
   
   killable@^1.0.1:
     version "1.0.1"
