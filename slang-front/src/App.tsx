@@ -1,10 +1,12 @@
 import './App.scss';
 
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState, useEffect } from 'react';
 
 import Footer from './sections/footer/footer';
 import Header from './sections/header/header';
 import MiddleSection from './sections/middle/middle';
+
+import $ from 'jquery';
 
 interface AppContextModel {
   checkAnswer: boolean;
@@ -27,6 +29,12 @@ const App = () => {
   const [words, setWords] = useState<string[]>([]);
   const [currentWord, setCurrentWord] = useState<number>(0);
   const [wordProvided, setWordProvided] = useState<string[]>([]);
+
+  $(function () {
+    if ($('*:focus').length == 0) {
+      $('#fillbox_10').focus();
+    }
+  });
 
   return (
     <AppContext.Provider

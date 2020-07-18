@@ -84,6 +84,7 @@ const LetterDrag = ({
       }}
     >
       <input
+        id={`fillbox_${listIndex}${index}`}
         type='text'
         value={letter}
         className={`letterdrag_input ${canDrop ? 'can_drop' : ''}`}

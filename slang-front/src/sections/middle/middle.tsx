@@ -55,13 +55,13 @@ const MiddleSection = () => {
   }, [currentWord]);
 
   useEffect(() => {
-    if (words && !!words.length) {
-      setLoadingAudio(true);
-      ActionsService.getSpeech(words[currentWord]).then((res) => {
-        setAudioData(res.data);
-        setLoadingAudio(false);
-      });
-    }
+    // if (words && !!words.length) {
+    //   setLoadingAudio(true);
+    //   ActionsService.getSpeech(words[currentWord]).then((res) => {
+    //     setAudioData(res.data);
+    //     setLoadingAudio(false);
+    //   });
+    // }
   }, [currentWord, words]);
 
   useEffect(() => {

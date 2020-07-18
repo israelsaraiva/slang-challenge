@@ -1,18 +1,22 @@
 import { SpeechModel } from 'models/speech.model';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 type Props = {
   audioData: SpeechModel;
 };
 
 export const AudioSpeech = ({ audioData }: Props) => {
-  const [speed, setSpeed] = useState(true);
+  // const [speed, setSpeed] = useState(true);
+
+  const audio = new Audio(audioData.normal);
+
+  useEffect(() => {
+    audio.load();
+    audio.play();
+  }, []);
 
   const playAudio = () => {
     if (audioData) {
-      //   const data = speed ? audioData.normal : audioData.slow;
-      const audio = new Audio(audioData.normal);
-      //   setSpeed(!speed);
       audio.play();
     }
   };
