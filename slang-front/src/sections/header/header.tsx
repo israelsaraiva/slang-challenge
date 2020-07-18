@@ -7,8 +7,9 @@ const Header = () => {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
-    if (words && currentWord) {
-      setPercent(words.indexOf(currentWord) + 1);
+    if (words) {
+      const factor = 100 / words.length;
+      setPercent(currentWord * factor);
     }
   }, [words, currentWord]);
 
@@ -23,7 +24,7 @@ const Header = () => {
               aria-valuenow={percent}
               aria-valuemin={0}
               aria-valuemax={words.length}
-              style={{ width: percent }}
+              style={{ width: `${percent}%` }}
             />
           </div>
         )}

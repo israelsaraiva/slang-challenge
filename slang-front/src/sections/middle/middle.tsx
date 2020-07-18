@@ -16,6 +16,7 @@ import { ActionsService } from 'services/actions.service';
 import { shuffle } from 'util/functions';
 
 import LetterCard from '../../controls/letter-box/letter-box';
+import { debug } from 'console';
 
 const BACKSPACE_CODE = 8;
 
@@ -27,10 +28,10 @@ const MiddleSection = () => {
 
   const {
     toggleCheckAnswer,
-    setCurrentWord,
     setWords,
     currentWord,
     setWordProvided,
+    words,
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -41,10 +42,6 @@ const MiddleSection = () => {
       setLetters([shuffle(word.split('')), new Array(word.length).fill('')]);
       setLoadingWords(false);
 
-      if (setCurrentWord) {
-        setCurrentWord(word);
-      }
-
       if (setWords) {
         setWords(res.data);
       }
@@ -52,29 +49,37 @@ const MiddleSection = () => {
   }, []);
 
   useEffect(() => {
-    if (currentWord) {
-      setLoadingAudio(true);
-      ActionsService.getSpeech(currentWord).then((res) => {
-        setAudioData(res.data);
-        setLoadingAudio(false);
-      });
+    if (words && !!words.length) {
+      const word = words[currentWord];
+      setLetters([shuffle(word.split('')), new Array(word.length).fill('')]);
     }
   }, [currentWord]);
 
   useEffect(() => {
-    if (toggleCheckAnswer && currentWord) {
+    if (words) {
+      //disable for now
+      // setLoadingAudio(true);
+      // ActionsService.getSpeech(currentWord).then((res) => {
+      //   setAudioData(res.data);
+      //   setLoadingAudio(false);
+      // });
+    }
+  }, [currentWord]);
+
+  useEffect(() => {
+    if (toggleCheckAnswer) {
       const filledCards = letters[1].filter((l) => l !== '').length;
 
-      if (setWordProvided) {
+      if (setWordProvided && words) {
         if (filledCards > 0) {
-          toggleCheckAnswer(filledCards === currentWord.length);
+          toggleCheckAnswer(filledCards === words[currentWord].length);
           setWordProvided(letters[1]);
         } else {
           setWordProvided([]);
         }
       }
     }
-  }, [letters]);
+  }, [letters, words, currentWord]);
 
   const onKeyDown = (keyCode: number) => {
     console.log(keyCode);
@@ -98,8 +103,7 @@ const MiddleSection = () => {
           );
         }
       } else {
-        const lastFilledIndex =
-          letters[1].findIndex((space) => space === '') - 1;
+        const lastFilledIndex = letters[1].findIndex((space) => space !== '');
 
         if (lastFilledIndex !== -1) {
           const emptyIndex = letters[0].findIndex((space) => space === '');

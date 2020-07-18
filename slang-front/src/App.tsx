@@ -11,20 +11,21 @@ interface AppContextModel {
   toggleCheckAnswer?: (value: boolean) => void;
   words?: string[];
   setWords?: Dispatch<SetStateAction<string[]>>;
-  currentWord?: string;
-  setCurrentWord?: Dispatch<SetStateAction<string>>;
+  currentWord: number;
+  setCurrentWord?: Dispatch<SetStateAction<number>>;
   wordProvided?: string[];
   setWordProvided?: Dispatch<SetStateAction<string[]>>;
 }
 
 export const AppContext = React.createContext<AppContextModel>({
   checkAnswer: false,
+  currentWord: 0,
 });
 
 const App = () => {
   const [checkAnswer, toggleCheckAnswer] = useState(false);
   const [words, setWords] = useState<string[]>([]);
-  const [currentWord, setCurrentWord] = useState<string>('');
+  const [currentWord, setCurrentWord] = useState<number>(0);
   const [wordProvided, setWordProvided] = useState<string[]>([]);
 
   return (

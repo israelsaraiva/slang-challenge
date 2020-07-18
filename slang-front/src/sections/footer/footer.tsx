@@ -3,22 +3,39 @@ import './footer.scss';
 import { AppContext } from 'App';
 import React, { useContext, useEffect, useState } from 'react';
 
-const Footer = () => {
-  const { checkAnswer, wordProvided, currentWord } = useContext(AppContext);
+const DEFAULT_BTN_TEXT = 'Check The Answer';
+const CHECKED_ANSWER_BTN_TEXT = 'Continue';
 
-  const [buttonText, setButtonText] = useState<string>('Check The Answer');
+const Footer = () => {
+  const {
+    checkAnswer,
+    wordProvided,
+    currentWord,
+    setCurrentWord,
+    words,
+  } = useContext(AppContext);
+
+  const [buttonText, setButtonText] = useState<string>(DEFAULT_BTN_TEXT);
   const [correct, setCorrect] = useState<boolean>();
 
   useEffect(() => {}, [wordProvided]);
 
   const checkAnswerAction = () => {
-    if (currentWord && wordProvided && !!wordProvided.length) {
+    if (words && wordProvided && !!wordProvided.length) {
       const result = wordProvided
-        .map((w, i) => w === currentWord[i])
+        .map((w, i) => w === words[currentWord][i])
         .reduce((prev, curr) => prev && curr);
 
-      setButtonText('Continue');
+      setButtonText(CHECKED_ANSWER_BTN_TEXT);
       setCorrect(result);
+    }
+  };
+
+  const continueAction = () => {
+    if (setCurrentWord) {
+      setCurrentWord(currentWord + 1);
+      setButtonText(DEFAULT_BTN_TEXT);
+      setCorrect(undefined);
     }
   };
 
@@ -40,7 +57,8 @@ const Footer = () => {
 
   return (
     <div className={`footer_section border-top py-5 ${getFootBgColor()}`}>
-      {checkAnswer}
+      <div>{words && words.toString()}</div>
+
       <div className='container d-flex justify-content-between'>
         <div>
           {correct === undefined && (
@@ -60,7 +78,7 @@ const Footer = () => {
 
               <div className='align-self-center ml-5'>
                 <h4>Correct answer:</h4>
-                <div>{currentWord}</div>
+                <div>{words && words[currentWord]}</div>
               </div>
             </div>
           )}
@@ -79,7 +97,7 @@ const Footer = () => {
           type='button'
           className={`btn text-uppercase mx-5 px-4 py-3 font-weight-bold ${getBtnColor()}`}
           disabled={!checkAnswer}
-          onClick={checkAnswerAction}
+          onClick={correct !== undefined ? continueAction : checkAnswerAction}
         >
           {buttonText}
         </button>
