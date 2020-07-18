@@ -1,6 +1,8 @@
 import './footer.scss';
 
 import { AppContext } from 'App';
+import negativeSound from 'assets/sounds/negative.mp3';
+import positiveSound from 'assets/sounds/positive.mp3';
 import React, { useContext, useEffect, useState } from 'react';
 
 const DEFAULT_BTN_TEXT = 'Check The Answer';
@@ -18,7 +20,13 @@ const Footer = () => {
   const [buttonText, setButtonText] = useState<string>(DEFAULT_BTN_TEXT);
   const [correct, setCorrect] = useState<boolean>();
 
-  useEffect(() => {}, [wordProvided]);
+  const positiveAudio = new Audio(positiveSound);
+  const negativeAudio = new Audio(negativeSound);
+
+  useEffect(() => {
+    positiveAudio.load();
+    negativeAudio.load();
+  }, []);
 
   const checkAnswerAction = () => {
     if (words && wordProvided && !!wordProvided.length) {
@@ -28,6 +36,12 @@ const Footer = () => {
 
       setButtonText(CHECKED_ANSWER_BTN_TEXT);
       setCorrect(result);
+
+      if (result) {
+        positiveAudio.play();
+      } else {
+        negativeAudio.play();
+      }
     }
   };
 
@@ -57,7 +71,7 @@ const Footer = () => {
 
   return (
     <div className={`footer_section border-top py-5 ${getFootBgColor()}`}>
-      <div>{words && words.toString()}</div>
+      {/* <div>{words && words.toString()}</div> */}
 
       <div className='container d-flex justify-content-between'>
         <div>
@@ -65,6 +79,7 @@ const Footer = () => {
             <button
               type='button'
               className='btn btn-outline-primary text-uppercase font-weight-bold mx-5 px-4 py-3'
+              // onClick={playSound}
             >
               JUMP TO NEXT
             </button>

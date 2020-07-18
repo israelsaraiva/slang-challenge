@@ -78,7 +78,10 @@ const LetterDrag = ({
     <div
       ref={ref}
       className={divClass}
-      style={{ backgroundColor: isOver && canDrop ? 'azure' : 'white' }}
+      style={{
+        backgroundColor: isOver && canDrop ? 'azure' : 'white',
+        border: isOver && canDrop ? '3px dashed #dee2e6' : '',
+      }}
     >
       <input
         type='text'

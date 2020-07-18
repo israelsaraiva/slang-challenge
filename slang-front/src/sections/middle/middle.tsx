@@ -16,7 +16,6 @@ import { ActionsService } from 'services/actions.service';
 import { shuffle } from 'util/functions';
 
 import LetterCard from '../../controls/letter-box/letter-box';
-import { debug } from 'console';
 
 const BACKSPACE_CODE = 8;
 
@@ -56,15 +55,14 @@ const MiddleSection = () => {
   }, [currentWord]);
 
   useEffect(() => {
-    if (words) {
-      //disable for now
-      // setLoadingAudio(true);
-      // ActionsService.getSpeech(currentWord).then((res) => {
-      //   setAudioData(res.data);
-      //   setLoadingAudio(false);
-      // });
+    if (words && !!words.length) {
+      setLoadingAudio(true);
+      ActionsService.getSpeech(words[currentWord]).then((res) => {
+        setAudioData(res.data);
+        setLoadingAudio(false);
+      });
     }
-  }, [currentWord]);
+  }, [currentWord, words]);
 
   useEffect(() => {
     if (toggleCheckAnswer) {
@@ -82,8 +80,6 @@ const MiddleSection = () => {
   }, [letters, words, currentWord]);
 
   const onKeyDown = (keyCode: number) => {
-    console.log(keyCode);
-
     if (keyCode) {
       if (keyCode !== BACKSPACE_CODE) {
         const key = String.fromCharCode(keyCode).toLowerCase();
