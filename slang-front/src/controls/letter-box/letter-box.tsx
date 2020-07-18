@@ -13,6 +13,7 @@ type Props = {
   listIndex: number;
   readonly?: boolean;
   inputChanged?: (value: number) => void;
+  correct?: boolean;
   moveCard: (
     dragIndex: number,
     dragList: number,
@@ -28,6 +29,7 @@ const LetterDrag = ({
   listIndex,
   readonly,
   inputChanged,
+  correct,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -74,6 +76,9 @@ const LetterDrag = ({
   const canDrag = !!letter.length ? 'can_drag' : '';
   const divClass = `letterdrag mx-2 ${draggingClass} ${canDrag}`;
 
+  const correctionClass =
+    correct !== undefined ? (correct ? 'success' : 'fail') : '';
+
   return (
     <div
       ref={ref}
@@ -87,7 +92,9 @@ const LetterDrag = ({
         id={`fillbox_${listIndex}${index}`}
         type='text'
         value={letter}
-        className={`letterdrag_input ${canDrop ? 'can_drop' : ''}`}
+        className={`letterdrag_input ${
+          canDrop ? 'can_drop' : ''
+        } ${correctionClass}`}
         readOnly={!canDrop || readonly}
         maxLength={1}
         onKeyDown={(e) => {

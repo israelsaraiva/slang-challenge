@@ -17,15 +17,19 @@ interface AppContextModel {
   setCurrentWord?: Dispatch<SetStateAction<number>>;
   wordProvided?: string[];
   setWordProvided?: Dispatch<SetStateAction<string[]>>;
+  verified: boolean;
+  setVerified?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AppContext = React.createContext<AppContextModel>({
   checkAnswer: false,
+  verified: false,
   currentWord: 0,
 });
 
 const App = () => {
   const [checkAnswer, toggleCheckAnswer] = useState(false);
+  const [verified, setVerified] = useState(false);
   const [words, setWords] = useState<string[]>([]);
   const [currentWord, setCurrentWord] = useState<number>(0);
   const [wordProvided, setWordProvided] = useState<string[]>([]);
@@ -63,6 +67,8 @@ const App = () => {
         setCurrentWord,
         wordProvided,
         setWordProvided,
+        verified,
+        setVerified,
       }}
     >
       <div className='app-container'>

@@ -16,6 +16,7 @@ const Footer = () => {
     setCurrentWord,
     words,
     toggleCheckAnswer,
+    setVerified,
   } = useContext(AppContext);
 
   const [buttonText, setButtonText] = useState<string>(DEFAULT_BTN_TEXT);
@@ -33,6 +34,10 @@ const Footer = () => {
     setButtonText(CHECKED_ANSWER_BTN_TEXT);
     setCorrect(false);
     negativeAudio.play();
+
+    if (setVerified) {
+      setVerified(true);
+    }
 
     if (toggleCheckAnswer) {
       toggleCheckAnswer(true);
@@ -53,6 +58,10 @@ const Footer = () => {
       } else {
         negativeAudio.play();
       }
+
+      if (setVerified) {
+        setVerified(true);
+      }
     }
   };
 
@@ -61,6 +70,10 @@ const Footer = () => {
       setCurrentWord(currentWord + 1);
       setButtonText(DEFAULT_BTN_TEXT);
       setCorrect(undefined);
+
+      if (setVerified) {
+        setVerified(false);
+      }
     }
   };
 

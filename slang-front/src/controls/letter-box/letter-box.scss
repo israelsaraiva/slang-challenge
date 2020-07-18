@@ -21,6 +21,14 @@
     &.can_drop {
       cursor: auto;
     }
+
+    &.success {
+      background-color: lightgreen;
+    }
+
+    &.fail {
+      background-color: lightpink;
+    }
   }
 
   &.dragging {
