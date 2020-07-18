@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'App';
 
+import './header.scss';
+
 const Header = () => {
   const { words, currentWord } = useContext(AppContext);
 
@@ -14,10 +16,10 @@ const Header = () => {
   }, [words, currentWord]);
 
   return (
-    <div className='container p-5 d-flex'>
+    <div className='app_header container'>
       <div className='w-100'>
         {words && (
-          <div className='progress mx-5'>
+          <div className='progress mr-3'>
             <div
               className='progress-bar progress-bar-striped progress-bar-animated'
               role='progressbar'

@@ -16,8 +16,12 @@
 - [x] Feedback to the user
   - For correct answer show success, or check signal
   - For incorrect answer show the difference between the user answer and the correct answer
-- [ ] play the speech when the screen starts
+- [x] play the speech when the screen starts
 - [ ] display the difference between the user’s spelling and the correct spelling.
+- [x] Responsive version
+- [ ] Unit Testing
+- [ ] Documentation
+- [ ] Score page
 
 # Functionalities
 

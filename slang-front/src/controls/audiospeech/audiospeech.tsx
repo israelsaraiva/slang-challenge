@@ -22,14 +22,12 @@ export const AudioSpeech = ({ audioData }: Props) => {
   };
 
   return (
-    <div>
-      <button
-        type='button'
-        className='btn btn-primary d-flex justify-content-center py-3 px-3 font-weight-bold'
-        onClick={playAudio}
-      >
-        <span className='icon-volume-medium fs_15 mr-3 text-nowrap' /> Hear word
-      </button>
-    </div>
+    <button
+      type='button'
+      className='btn btn-primary d-flex justify-content-center py-3 px-3 font-weight-bold'
+      onClick={playAudio}
+    >
+      <span className='icon-volume-medium fs_15 mr-3 text-nowrap' /> Hear word
+    </button>
   );
 };

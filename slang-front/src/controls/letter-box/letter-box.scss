@@ -37,3 +37,23 @@
     border: 1px solid #dee2e6;
   }
 }
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .fs_15 {
+    font-size: 1rem;
+  }
+
+  .letterdrag {
+    border-radius: 0.25rem;
+    border: 1px dashed #dee2e6;
+    background: #fff;
+    width: 28px;
+    height: 30px;
+    text-align: center;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    text-transform: uppercase;
+  }
+}

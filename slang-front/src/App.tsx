@@ -34,6 +34,22 @@ const App = () => {
     if ($('*:focus').length == 0) {
       $('#fillbox_10').focus();
     }
+
+    $(document).on('keyup', (e) => {
+      e.preventDefault();
+
+      if (e.which === 13) {
+        const checkAnswerButton = $('#check_answer_btn');
+
+        if (checkAnswerButton.is(':disabled')) {
+          $('#jump_btn').click();
+        } else {
+          $('#check_answer_btn').click();
+        }
+
+        e.stopImmediatePropagation();
+      }
+    });
   });
 
   return (

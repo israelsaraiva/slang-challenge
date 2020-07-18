@@ -1,3 +1,5 @@
+import './middle.scss';
+
 import { AppContext } from 'App';
 import { AudioSpeech } from 'controls/audiospeech/audiospeech';
 import { Loading } from 'controls/loading/loading';
@@ -55,6 +57,7 @@ const MiddleSection = () => {
   }, [currentWord]);
 
   useEffect(() => {
+    setAudioData({ normal: '', slow: '' });
     // if (words && !!words.length) {
     //   setLoadingAudio(true);
     //   ActionsService.getSpeech(words[currentWord]).then((res) => {
@@ -133,19 +136,18 @@ const MiddleSection = () => {
     const gapsIndex = 1;
 
     return (
-      <div className='d-flex mb-5'>
-        {audioData && <AudioSpeech audioData={audioData} />}
-
-        <div className='align-self-center ml-5 fs_15 d-flex'>
+      <div className='mb-4'>
+        <div className='fs_15 d-flex flex-wrap justify-content-center'>
           {letters[gapsIndex].map((l, i) => (
-            <LetterCard
-              key={i}
-              index={i}
-              letter={l}
-              listIndex={gapsIndex}
-              moveCard={moveCard}
-              inputChanged={onKeyDown}
-            />
+            <div key={i} className='mb-3'>
+              <LetterCard
+                index={i}
+                letter={l}
+                listIndex={gapsIndex}
+                moveCard={moveCard}
+                inputChanged={onKeyDown}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -155,16 +157,18 @@ const MiddleSection = () => {
   const wordBlocks = useMemo(() => {
     const blockIndex = 0;
     return (
-      <div className='d-flex fs_15 justify-content-center'>
+      <div className='d-flex flex-wrap fs_15 justify-content-center'>
         {letters[blockIndex].map((l, i) => (
-          <LetterCard
-            key={i}
-            index={i}
-            letter={l}
-            listIndex={blockIndex}
-            moveCard={moveCard}
-            readonly
-          />
+          <div className='mb-3'>
+            <LetterCard
+              key={i}
+              index={i}
+              letter={l}
+              listIndex={blockIndex}
+              moveCard={moveCard}
+              readonly
+            />
+          </div>
         ))}
       </div>
     );
@@ -182,14 +186,18 @@ const MiddleSection = () => {
   return (
     <div
       id='middle_section'
-      className='container px-5 d-flex justify-content-center position-relative'
+      className='app_middle container px-2 d-flex justify-content-center position-relative'
     >
       <DndProvider backend={HTML5Backend}>
         {(loadingWords || loadingAudio) && loadingHtml}
 
         {!loadingWords && !loadingAudio && (
-          <div>
+          <div className='w-100'>
             <h2 className='mb-5 text-center'>Write what you listen</h2>
+
+            <div className='mb-5 d-flex justify-content-center'>
+              {audioData && <AudioSpeech audioData={audioData} />}
+            </div>
 
             {wordGaps}
 
