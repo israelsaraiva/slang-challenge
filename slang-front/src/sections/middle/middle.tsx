@@ -14,7 +14,6 @@ import React, {
 } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { ActionsService } from 'services/actions.service';
 import { createEmptyBlocks, scrambleLetters } from 'util/functions';
 
 import LetterCard from '../../controls/letter-box/letter-box';
@@ -24,49 +23,35 @@ const BACKSPACE_CODE = 8;
 const WORDS_INDEX = 0;
 const GAPS_INDEX = 1;
 
-const MiddleSection = () => {
+type Props = {
+  loadingWords: boolean;
+  words: string[];
+  loadingAudio: boolean;
+  audioData?: SpeechModel;
+};
+
+const MiddleSection = ({
+  loadingWords,
+  words,
+  loadingAudio,
+  audioData,
+}: Props) => {
   const [letters, setLetters] = useState<string[][]>([[], []]);
-  const [loadingWords, setLoadingWords] = useState(false);
-  const [loadingAudio, setLoadingAudio] = useState(false);
-  const [audioData, setAudioData] = useState<SpeechModel>();
 
   const {
     toggleCheckAnswer,
-    setWords,
     currentWord,
     setWordProvided,
-    words,
     verified,
   } = useContext(AppContext);
 
   useEffect(() => {
-    setLoadingWords(true);
-    ActionsService.getWords()
-      .then((res) => {
-        const word = res.data[WORDS_INDEX];
+    const word = words[0];
 
-        setLetters([scrambleLetters(word), createEmptyBlocks(word)]);
-        setLoadingWords(false);
-
-        if (setWords) {
-          setWords(res.data);
-        }
-      })
-      .finally(() => {
-        setLoadingWords(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    setAudioData({ normal: '', slow: '' });
-    // if (words && !!words.length) {
-    //   setLoadingAudio(true);
-    //   ActionsService.getSpeech(words[currentWord]).then((res) => {
-    //     setAudioData(res.data);
-    //     setLoadingAudio(false);
-    //   });
-    // }
-  }, [currentWord, words]);
+    if (word) {
+      setLetters([scrambleLetters(word), createEmptyBlocks(word)]);
+    }
+  }, [words]);
 
   useEffect(() => {
     if (words && !!words.length) {

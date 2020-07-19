@@ -1,12 +1,13 @@
 import './App.scss';
 
-import React, { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import $ from 'jquery';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ActionsService } from 'services/actions.service';
 
 import Footer from './sections/footer/footer';
 import Header from './sections/header/header';
 import MiddleSection from './sections/middle/middle';
-
-import $ from 'jquery';
+import { SpeechModel } from 'models/speech.model';
 
 interface AppContextModel {
   checkAnswer: boolean;
@@ -30,9 +31,37 @@ export const AppContext = React.createContext<AppContextModel>({
 const App = () => {
   const [checkAnswer, toggleCheckAnswer] = useState(false);
   const [verified, setVerified] = useState(false);
-  const [words, setWords] = useState<string[]>([]);
   const [currentWord, setCurrentWord] = useState<number>(0);
   const [wordProvided, setWordProvided] = useState<string[]>([]);
+
+  const [loadingWords, setLoadingWords] = useState(false);
+  const [words, setWords] = useState<string[]>([]);
+
+  const [loadingAudio, setLoadingAudio] = useState(false);
+  const [audioData, setAudioData] = useState<SpeechModel>();
+
+  useEffect(() => {
+    setLoadingWords(true);
+    ActionsService.getWords()
+      .then((res) => {
+        setWords(res.data);
+        setLoadingWords(false);
+      })
+      .finally(() => {
+        setLoadingWords(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setAudioData({ normal: '', slow: '' });
+    // if (words && !!words.length) {
+    //   setLoadingAudio(true);
+    //   ActionsService.getSpeech(words[currentWord]).then((res) => {
+    //     setAudioData(res.data);
+    //     setLoadingAudio(false);
+    //   });
+    // }
+  }, [currentWord, words]);
 
   $(function () {
     if ($('*:focus').length == 0) {
@@ -75,7 +104,12 @@ const App = () => {
         <Header />
 
         <div className='my-auto'>
-          <MiddleSection />
+          <MiddleSection
+            loadingWords={loadingWords}
+            words={words}
+            loadingAudio={loadingAudio}
+            audioData={audioData}
+          />
         </div>
 
         <Footer />

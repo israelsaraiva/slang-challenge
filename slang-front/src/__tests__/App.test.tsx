@@ -2,7 +2,7 @@ import { render, RenderResult, waitFor } from '@testing-library/react';
 import App from 'App';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Enzyme from 'enzyme';
+import Enzyme, { shallow, ShallowWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 
@@ -22,7 +22,7 @@ const wrods = [
 ];
 
 describe('<App />', () => {
-  let wrapper: RenderResult<typeof import('/Users/israelsaraiva/dev/challenge/slang-front/node_modules/@testing-library/dom/types/queries')>;
+  let wrapper: ShallowWrapper;
 
   beforeEach(() => {
     const mock = new MockAdapter(axios);
@@ -34,7 +34,11 @@ describe('<App />', () => {
 
     window.HTMLMediaElement.prototype.load = () => {};
     window.HTMLMediaElement.prototype.pause = () => {};
-    wrapper = render(<App />);
+    wrapper = shallow(<App />);
+  });
+
+  it('should match the snapshot', () => {
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it('should fetch and display data', async () => {
