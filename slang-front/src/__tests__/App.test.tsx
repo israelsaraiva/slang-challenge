@@ -1,109 +1,105 @@
-import { render, RenderResult, waitFor } from '@testing-library/react';
 import App from 'App';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import Enzyme, { shallow, ShallowWrapper } from 'enzyme';
+import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const wrods = [
-  'mesas',
-  'routinisms',
-  'laveering',
-  'whimper',
-  'frankly',
-  'guffawing',
-  'salience',
-  'underclassmen',
-  'rejoinders',
-  'overspeculates',
-];
+const response = {
+  data: [
+    'gundog',
+    'hilarious',
+    'photosynthesis',
+    'mandibular',
+    'resensitizes',
+    'berated',
+    'ropery',
+    'aptness',
+    'mameyes',
+    'underacting',
+  ],
+  status: 200,
+  statusText: 'OK',
+  headers: {
+    'content-length': '120',
+    'content-type': 'application/json; charset=utf-8',
+  },
+  config: {
+    url: 'actions',
+    method: 'get',
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Access-Control-Allow-Origin': '*',
+    },
+    baseURL: 'http://localhost:3000/',
+    transformRequest: [null],
+    transformResponse: [null],
+    timeout: 30000,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
+    maxContentLength: -1,
+  },
+  request: {},
+};
+
+/* 
+  PROBLEM FOUND
+
+  Give the correct mock response for axios, recieving the words
+*/
 
 describe('<App />', () => {
-  let wrapper: ShallowWrapper;
+  let wrapper: ReactWrapper;
 
   beforeEach(() => {
     const mock = new MockAdapter(axios);
-    const data = {
-      data: wrods,
-    };
 
-    mock.onGet('http://localhost:3000/actions').reply(200, data);
+    mock.onGet('http://localhost:3000/actions').reply(200, response);
 
+    window.HTMLMediaElement.prototype.play = (() => {}) as any;
     window.HTMLMediaElement.prototype.load = () => {};
     window.HTMLMediaElement.prototype.pause = () => {};
-    wrapper = shallow(<App />);
+    wrapper = mount(<App />);
   });
 
   it('should match the snapshot', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('should fetch and display data', async () => {
-    const { debug } = wrapper;
-    const result = await waitFor(() => {
-      console.log(debug());
-    });
-
-    console.log(result);
-
-    // const countSpan = await waitForElement(() => wrapper.find('#fillbox_10'));
-
-    // const firstInput = wrapper.find('#fillbox_10');
-    // const focusedElement = document.activeElement;
-
-    // expect(firstInput.matchesElement(focusedElement)).toEqual(true);
+  it("should enable the 'Check The Answer' button", () => {
+    // const answerGroup = wrapper.find('[data-testid="answer_box"]');
+    // const checkAnswerBtn = wrapper.find('[data-testid="btnCheckAnswer"]');
+    // answerGroup.forEach((box) => {
+    //   const input = box.find('input');
+    //   input.simulate('change', { target: { value: 'a' } });
+    // });
+    // wrapper.update();
+    // console.log(answerGroup.first().find('input').props().value);
   });
 
-  //   it('should disable weather timer if there is not selected microzone', () => {
-  //     const store = mockStore({
-  //       userReducer: { user: undefined },
-  //       microzonesReducer: {
-  //         microzones: [{ name: 'bogota' }],
-  //         selectedMicrozones: [],
-  //         updatingZones: false,
-  //       },
-  //     });
+  it('should present a positive feedback', () => {
+    //STEPS
+    /*
+    1 - Get the answer group
+    2 - Get the check answerbtn
+    3 - Fill the empty blocks with the correct letters for the current word
+    4 - Simulate click action on checkAnswerBtn
+    5 - Get the check element, the represents correct answer
+    6 - Expect this check element to exist 
+    */
+  });
 
-  //     const wrapper = mount(
-  //       <Provider store={store}>
-  //         <Eventualities valuesChanged={() => {}} shouldRefresh={false} />
-  //       </Provider>
-  //     );
-
-  //     const weatherInput = wrapper.find('input').find('#weather-timer');
-  //     expect(weatherInput.is('[disabled]')).toBe(true);
-
-  //     const eventInput = wrapper.find('input').find('#event-timer');
-  //     expect(eventInput.is('[disabled]')).toBe(true);
-  //   });
-
-  //   it('should present error for invalid inputs', () => {
-  //     const weatherInput = wrapper.find('input').find('#weather-timer');
-
-  //     const weatherErrorText =
-  //       'The Weather Timer should be in the range (5,120) min.';
-
-  //     weatherInput.simulate('change', { target: { value: '3' } });
-  //     const weatherHelper = wrapper.find('p').find('#weather-timer-helper-text');
-
-  //     expect(weatherHelper.text()).toEqual(weatherErrorText);
-  //   });
-
-  //   it('should change weather/event on select', () => {
-  //     const weatherSelector = wrapper
-  //       .find('[data-testid="weather-selector"]')
-  //       .find('input');
-
-  //     weatherSelector.simulate('change', { target: { value: 'Light day' } });
-
-  //     // console.log(wrapper.instance());
-
-  //     // expect(wrapper.instance().state.count).toBe(0);
-
-  //     // console.log(weatherSelector.text());
-  //     // expect(setRaining).toHaveBeenCalledWith('Light day');
-  //   });
+  it('should present a negative feedback', () => {
+    //STEPS
+    /*
+    1 - Get the answer group
+    2 - Get the check answerbtn
+    3 - Fill the empty blocks with wrong letters position for the current word
+    4 - Simulate click action on checkAnswerBtn
+    5 - Get the check element, the represents correct answer
+    6 - Expect this check element to exist 
+    */
+  });
 });

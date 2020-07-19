@@ -97,6 +97,7 @@ const LetterDrag = ({
         } ${correctionClass}`}
         readOnly={!canDrop || readonly}
         maxLength={1}
+        onChange={() => {}}
         onKeyDown={(e) => {
           if (inputChanged) {
             inputChanged(e.keyCode);

@@ -139,6 +139,7 @@ const Footer = () => {
               id='check_answer_btn'
               type='button'
               className={`btn text-uppercase px-4 py-3 font-weight-bold ${getBtnColor()}`}
+              data-testid='btnCheckAnswer'
               disabled={!checkAnswer}
               onClick={
                 correct !== undefined ? continueAction : checkAnswerAction

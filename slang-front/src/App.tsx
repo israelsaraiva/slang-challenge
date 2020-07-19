@@ -47,20 +47,22 @@ const App = () => {
         setWords(res.data);
         setLoadingWords(false);
       })
+      .catch((err) => console.log(err))
       .finally(() => {
         setLoadingWords(false);
       });
   }, []);
 
   useEffect(() => {
-    setAudioData({ normal: '', slow: '' });
-    // if (words && !!words.length) {
-    //   setLoadingAudio(true);
-    //   ActionsService.getSpeech(words[currentWord]).then((res) => {
-    //     setAudioData(res.data);
-    //     setLoadingAudio(false);
-    //   });
-    // }
+    if (words && !!words.length) {
+      setLoadingAudio(true);
+      ActionsService.getSpeech(words[currentWord])
+        .then((res) => {
+          setAudioData(res.data);
+          setLoadingAudio(false);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [currentWord, words]);
 
   $(function () {

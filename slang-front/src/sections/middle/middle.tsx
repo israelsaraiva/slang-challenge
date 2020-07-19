@@ -180,13 +180,14 @@ const MiddleSection = ({
     return (
       <div className='d-flex flex-wrap fs_15 justify-content-center'>
         {letters[WORDS_INDEX].map((l, i) => (
-          <div className='mb-3'>
+          <div key={i} className='mb-3'>
             <LetterCard
               key={i}
               index={i}
               letter={l}
               listIndex={WORDS_INDEX}
               moveCard={moveCard}
+              data-testid='answer_box'
               readonly
             />
           </div>
