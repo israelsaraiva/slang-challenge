@@ -57,8 +57,9 @@ We’d like you to build an application which presents users with English spelli
 - I couldn't until now get/set component state using Enzyme with React Hooks
 - Jquery on keydown/keyup/keypress event, firing too many times. Inserted an input, so the event is fired once.
   For other cases I used "e.stopImmediatePropagation();"
-- I couldn't find a way to "await" mouting components for testing, when those have an async method benn called inside.
-  Possible solution: Remove async methods to an Redux action, and pass it as a props. After implement this async method using axios mocking
+- I couldn't find a way to "await" mouting components for testing, when those have an async method been called inside. <br/>
+  Possible solution: Remove async methods to an Redux action, and pass it as a props. After implement this async method using axios mocking <br/>
+  Following [this](https://medium.com/@acesmndr/testing-react-functional-components-with-hooks-using-enzyme-f732124d320a) tutorial in order to make it work
 
 ## Comments or suggestions?
 
