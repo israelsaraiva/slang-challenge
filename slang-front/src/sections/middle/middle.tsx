@@ -224,7 +224,6 @@ const MiddleSection = () => {
       id='middle_section'
       className='app_middle container px-2 d-flex justify-content-center position-relative'
     >
-      {loadingWords ? 'LOADING TRUE' : 'LOADING FALSE'}
       <DndProvider backend={HTML5Backend}>
         {(loadingWords || loadingAudio) && loadingHtml}
 

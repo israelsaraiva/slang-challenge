@@ -6,7 +6,7 @@
 
 ## Overview
 
-SlangChallenge is an app focused on problem solving for a specific interview. This application was build using React Hooks and NestJS.
+SlangChallenge is an app focused on problem solving for a specific interview. This application was build using React and NestJS.
 
 ## The Challenge
 
@@ -16,6 +16,16 @@ We’d like you to build an application which presents users with English spelli
 
 - Frontend: yarn start
 - Backedn: yarn start
+
+### Main used libraries
+
+- React (Hooks)
+- NestJS
+- Axios
+- Bootstrap
+- Sass
+- React DND
+- Typescript
 
 ### Implemented tasks
 
