@@ -34,18 +34,17 @@ We’d like you to build an application which presents users with English spelli
 - [x] display the difference between the user’s spelling and the correct spelling.
 - [x] Responsive version
 - [ ] Unit Testing
-- [ ] Documentation
 - [ ] Score page
 - [ ] Implements feedback for axios response error
 
 ### Problems faced while implementing
 
-- Jest doesn't recognise the "Audio" methods, I had to implement those:
-  window.HTMLMediaElement.prototype.load = () => {};
+- Jest doesn't recognise the "Audio" methods, I had to add those: <br/>
+  window.HTMLMediaElement.prototype.load = () => {};<br/>
   window.HTMLMediaElement.prototype.pause = () => {};
 - I hade to add this '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)\$' in order to
   allow importing mp3 files on unit testing
-- Isn't get/set component state using Enzyme for React Hooks
+- I couldn't until now get/set component state using Enzyme with React Hooks
 - Jquery on keydown/keyup/keypress event, firing too many times. Inserted an input, so the event is fired once.
   For other cases I used "e.stopImmediatePropagation();"
 - I couldn't find a way to "await" mouting components for testing, when those have an async method benn called inside.
