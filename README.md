@@ -1,5 +1,5 @@
 <h3 align="center">
-  This is an initial implementation of a web application that aims to assist in language studies. 🚀
+  This is an initial implementation of a web application that aims to assist in language studies
 </h3>
 
 <br>
@@ -22,7 +22,7 @@ We’d like you to build an application which presents users with English spelli
 - [x] Dictionary of english terms. Using this api [Herokuapp](https://random-word-api.herokuapp.com/word?number=10)
 - [x] Select one term aleatory
 - [x] Scramble the letters
-- [x] Provide pronunciation [Hello World! Test](http://api.voicerss.org/?key=49f0551a55144ef79dadaeccf28b3383&hl=en-us&src=Hello,world!)
+- [x] Provide pronunciation [Hello World! (Speech)](http://api.voicerss.org/?key=49f0551a55144ef79dadaeccf28b3383&hl=en-us&src=Hello,world!) |
       [Documentation For Voicerss](http://www.voicerss.org/api/documentation.aspx)
 - [x] Allows drag and drop letters, or by keyboard [Using React DND](https://react-dnd.github.io/react-dnd/about)
 - [x] Allows user keyboard input
