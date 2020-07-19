@@ -4,7 +4,9 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "es5",
+      "es6"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,8 +21,12 @@
     "noEmit": true,
     "jsx": "react",
     "baseUrl": "src",
+    "types": [
+      "jest"
+    ],
   },
   "include": [
-    "src"
+    "src",
+    "jest.config.js"
   ]
 }

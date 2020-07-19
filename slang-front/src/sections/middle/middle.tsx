@@ -41,16 +41,20 @@ const MiddleSection = () => {
 
   useEffect(() => {
     setLoadingWords(true);
-    ActionsService.getWords().then((res) => {
-      const word = res.data[WORDS_INDEX];
+    ActionsService.getWords()
+      .then((res) => {
+        const word = res.data[WORDS_INDEX];
 
-      setLetters([scrambleLetters(word), createEmptyBlocks(word)]);
-      setLoadingWords(false);
+        setLetters([scrambleLetters(word), createEmptyBlocks(word)]);
+        setLoadingWords(false);
 
-      if (setWords) {
-        setWords(res.data);
-      }
-    });
+        if (setWords) {
+          setWords(res.data);
+        }
+      })
+      .finally(() => {
+        setLoadingWords(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -220,6 +224,7 @@ const MiddleSection = () => {
       id='middle_section'
       className='app_middle container px-2 d-flex justify-content-center position-relative'
     >
+      {loadingWords ? 'LOADING TRUE' : 'LOADING FALSE'}
       <DndProvider backend={HTML5Backend}>
         {(loadingWords || loadingAudio) && loadingHtml}
 
